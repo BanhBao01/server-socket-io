@@ -30,7 +30,7 @@ function startKeepAlive() {
             res.on('data', function(chunk) {
                 try {
                     // optional logging... disable after it's working
-                    console.log("HEROKU RESPONSE: " + chunk);
+                    console.log("HEROKU RESPONSE: render side...");
                 } catch (err) {
                     console.log(err.message);
                 }
@@ -38,7 +38,7 @@ function startKeepAlive() {
         }).on('error', function(err) {
             console.log("Error: " + err.message);
         });
-    }, 1 * 60 * 1000); // load every 20 minutes
+    }, 20 * 60 * 1000); // load every 20 minutes
 }
 
 startKeepAlive();
