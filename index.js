@@ -26,7 +26,7 @@ function startKeepAlive() {
             port: 80,
             path: '/'
         };
-        http.get(options, function(res) {
+        https.get(options, function(res) {
             res.on('data', function(chunk) {
                 try {
                     // optional logging... disable after it's working
