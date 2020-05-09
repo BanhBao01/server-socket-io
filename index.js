@@ -31,13 +31,19 @@ io.on('connection', (socket) => {
         })
 
         req.on('error', (error) => {
-            console.error(error)
-            io.emit('CHAT_MESSAGE', error)
+            io.emit('CHAT_MESSAGE', createHangUpError)
         })
 
-        // req.end()
+        req.end()
     });
 });
+
+function createHangUpError() {
+    var error = new Error('socket hang up');
+    error.code = 'ECONNRESET';
+    console.log(error)
+    return error;
+}
 
 const port = process.env.PORT || 3000
 
