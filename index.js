@@ -35,7 +35,7 @@ io.on('connection', (socket) => {
             io.emit('CHAT_MESSAGE', error)
         })
 
-        req.end()
+        // req.end()
     });
 });
 
