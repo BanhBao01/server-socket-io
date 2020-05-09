@@ -21,32 +21,23 @@ io.on('connection', (socket) => {
                 'Content-Length': data.length
             }
         }
-        console.log(msg, options)
         const req = https.request(options, (res) => {
             console.log(`statusCode: ${res.statusCode}`)
 
             res.on('data', (d) => {
-                io.emit('CHAT_MESSAGE', d)
+                process.stdout.write(d)
             })
         })
 
         req.on('error', (error) => {
-            io.emit('CHAT_MESSAGE', createHangUpError)
+            console.error(error)
         })
 
+        req.write(data)
         req.end()
     });
 });
 
-function createHangUpError() {
-    var error = new Error('socket hang up');
-    error.code = 'ECONNRESET';
-    console.log(error)
-    return error;
-}
-
-const port = process.env.PORT || 3000
-
-http.listen(port, () => {
-    console.log(`listening on *:${port}`);
+http.listen(3000, () => {
+    console.log('listening on *:3000');
 });
