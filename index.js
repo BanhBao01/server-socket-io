@@ -22,15 +22,16 @@ io.on('connection', (socket) => {
             }
         }
         const req = https.request(options, (res) => {
-            console.log(`statusCode: ${res.statusCode}`)
-
+            console.log('STATUS: ' + res.statusCode);
+            console.log('HEADERS: ' + JSON.stringify(res.headers));
+            res.setEncoding('utf8');
             res.on('data', (d) => {
-                process.stdout.write(d)
+                io.emit('CHAT_MESSAGE', d)
             })
         })
 
         req.on('error', (error) => {
-            console.error(error)
+            console.error(error.message)
         })
 
         req.write(data)
@@ -38,7 +39,7 @@ io.on('connection', (socket) => {
     });
 });
 
-const port = process.env.PORT || 300
+const port = process.env.PORT || 3000
 
 http.listen(port, () => {
     console.log(`listening on *:${port}`);
