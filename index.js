@@ -23,7 +23,7 @@ function startKeepAlive() {
     setInterval(function() {
         var options = {
             host: 'server-socket-io0.herokuapp.com',
-            port: 80,
+            port: 443,
             path: '/'
         };
         https.get(options, function(res) {
