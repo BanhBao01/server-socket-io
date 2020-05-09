@@ -2,7 +2,6 @@ var app = require('express')();
 var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 const https = require('https')
-const herokuNoSleep = require('heroku-nosleep')('https://server-socket-io0.herokuapp.com/')
 
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
