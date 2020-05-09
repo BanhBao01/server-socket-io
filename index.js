@@ -21,6 +21,7 @@ io.on('connection', (socket) => {
                 'Content-Length': data.length
             }
         }
+        console.log(msg, options)
         const req = https.request(options, (res) => {
             console.log(`statusCode: ${res.statusCode}`)
 
