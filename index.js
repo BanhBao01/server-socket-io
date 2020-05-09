@@ -4,6 +4,7 @@ var io = require('socket.io')(http);
 const https = require('https')
 
 app.get('/', (req, res) => {
+    console.log('rending website...')
     res.sendFile(__dirname + '/index.html');
 });
 
