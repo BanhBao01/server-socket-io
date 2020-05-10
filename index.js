@@ -33,11 +33,11 @@ io.on('connection', (socket) => {
         io.to(msg.id).emit(msg.type, msg.data)
     });
 
-    socket.on('disconnect', () => {
+    socket.on('disconnect', (socket) => {
         console.log(socket.id)
-        userConnection = userConnection.filter(item => {
-            return item.socket_id != socket.id
-        })
+            // userConnection.filter(item => {
+            //     return item.socket_id != socket.id
+            // })
     });
 });
 
