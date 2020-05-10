@@ -3,6 +3,8 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 const https = require('https')
 
+const userConnection = []
+
 app.get('/', (req, res) => {
     console.log('rending website...')
     res.sendFile(__dirname + '/index.html');
@@ -10,13 +12,29 @@ app.get('/', (req, res) => {
 
 io.on('connection', (socket) => {
     console.log(`${socket.id} connection`);
+    console.log(userConnection)
     io.emit('SOCKET_ID', socket.id)
+
+    socket.on('SOCKET_CONNECT', (auth) => {
+        userConnection.push({
+            socket_id: socket.id,
+            auth: auth
+        })
+    })
+
     socket.on('SOCKET_ON', (msg) => {
-        console.log(msg)
         io.emit(msg.type, msg.data)
     });
-    socket.on('CHAT_MESSAGE_GROUP', (msg) => {
-        handleEmitSocket('CHAT_MESSAGE_GROUP', msg)
+
+    socket.on('SOCKET_ON_TO', (msg) => {
+        io.to(msg.id).emit(msg.type, msg.data)
+    });
+
+    socket.on('disconnect', () => {
+        console.log(socket.id)
+        userConnection = [...userConnection.filter(item => {
+            return item.socket_id != socket.id
+        })]
     });
 });
 
@@ -43,35 +61,6 @@ function startKeepAlive() {
 }
 
 startKeepAlive();
-
-function handleEmitSocket(type, msg) {
-    const data = JSON.stringify(msg.data)
-    const options = {
-        hostname: msg.options.hostname,
-        port: msg.options.port,
-        path: msg.options.path,
-        method: msg.options.method,
-        headers: {
-            'Content-Type': 'application/json',
-            'Content-Length': data.length
-        }
-    }
-    const req = https.request(options, (res) => {
-        console.log('STATUS: ' + res.statusCode);
-        console.log('HEADERS: ' + JSON.stringify(res.headers));
-        res.setEncoding('utf8');
-        res.on('data', (d) => {
-            io.emit(type, d)
-        })
-    })
-
-    req.on('error', (error) => {
-        console.error(error.message)
-    })
-
-    req.write(data)
-    req.end()
-}
 
 const port = process.env.PORT || 3000
 
