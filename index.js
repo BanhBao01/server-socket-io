@@ -12,15 +12,24 @@ app.get('/', (req, res) => {
 var userConnection = []
 io.on('connection', (socket) => {
     console.log(`${socket.id} connection`);
-    console.log(userConnection)
+    console.log('userConnectionDefault', userConnection)
     io.emit('SOCKET_ID', socket.id)
 
     socket.on('SOCKET_CONNECT', (auth) => {
-        console.log(auth)
-        userConnection.push({
-            socket_id: socket.id,
-            auth: auth
-        })
+        const indexUser = userConnection.findIndex(item => item.auth == auth)
+        console.log('indexUser', indexUser)
+        if (indexUser != -1) {
+            userConnection.push([...userConnection.slice(0, indexUser), {
+                socket_id: socket.id,
+                auth: auth
+            }, ...userConnection.slice(indexUser + 1)])
+        } else {
+            userConnection.push({
+                socket_id: socket.id,
+                auth: auth
+            })
+        }
+        console.log('userConnectionAfter', userConnection)
         io.emit('LIST_CONNECT', userConnection)
     })
 
