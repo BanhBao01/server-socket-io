@@ -9,8 +9,8 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/index.html');
 });
 
+var userConnection = []
 io.on('connection', (socket) => {
-    var userConnection = []
     console.log(`${socket.id} connection`);
     console.log(userConnection)
     io.emit('SOCKET_ID', socket.id)
@@ -36,9 +36,10 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', (socket) => {
         console.log(socket.id)
-            // userConnection.filter(item => {
-            //     return item.socket_id != socket.id
-            // })
+        userConnection = userConnection.filter(item => {
+            return item.socket_id != socket.id
+        })
+        io.emit('LIST_CONNECT', userConnection)
     });
 });
 
