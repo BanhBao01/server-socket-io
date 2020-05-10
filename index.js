@@ -34,12 +34,12 @@ io.on('connection', (socket) => {
     })
 
     socket.on('SOCKET_ON', (msg) => {
-        console.log(userConnection)
+        console.log('SOCKET_ON', msg)
         io.emit(msg.type, msg.data)
     });
 
     socket.on('SOCKET_ON_TO', (msg) => {
-        console.log(userConnection)
+        console.log('SOCKET_ON_TO', msg)
         io.to(msg.id).emit(msg.type, msg.data)
     });
 
