@@ -32,9 +32,9 @@ io.on('connection', (socket) => {
 
     socket.on('disconnect', () => {
         console.log(socket.id)
-        userConnection = [...userConnection.filter(item => {
+        userConnection = userConnection.filter(item => {
             return item.socket_id != socket.id
-        })]
+        })
     });
 });
 
