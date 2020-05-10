@@ -20,13 +20,16 @@ io.on('connection', (socket) => {
             socket_id: socket.id,
             auth: auth
         })
+        console.log(userConnection)
     })
 
     socket.on('SOCKET_ON', (msg) => {
+        console.log(userConnection)
         io.emit(msg.type, msg.data)
     });
 
     socket.on('SOCKET_ON_TO', (msg) => {
+        console.log(userConnection)
         io.to(msg.id).emit(msg.type, msg.data)
     });
 
