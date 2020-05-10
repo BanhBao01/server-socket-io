@@ -40,6 +40,7 @@ io.on('connection', (socket) => {
 
     socket.on('SOCKET_ON_TO', (msg) => {
         console.log('SOCKET_ON_TO', msg)
+        console.log('SOCKET_ID', msg.id)
         io.to(msg.id).emit(msg.type, msg.data)
     });
 
