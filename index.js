@@ -12,6 +12,7 @@ io.on('connection', (socket) => {
     console.log(`${socket.id} connection`);
     io.emit('SOCKET_ID', socket.id)
     socket.on('SOCKET_ON', (msg) => {
+        console.log(msg)
         io.emit(msg.type, msg.data)
     });
     socket.on('CHAT_MESSAGE_GROUP', (msg) => {
