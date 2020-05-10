@@ -11,8 +11,8 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
     console.log(`${socket.id} connection`);
     io.emit('SOCKET_ID', socket.id)
-    socket.on('CHAT_MESSAGE', (msg) => {
-        handleEmitSocket('CHAT_MESSAGE', msg)
+    socket.on('SOCKET_ON', (msg) => {
+        io.emit(msg.type, msg.data)
     });
     socket.on('CHAT_MESSAGE_GROUP', (msg) => {
         handleEmitSocket('CHAT_MESSAGE_GROUP', msg)
