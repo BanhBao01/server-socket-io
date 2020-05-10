@@ -3,7 +3,7 @@ var http = require('http').createServer(app);
 var io = require('socket.io')(http);
 const https = require('https')
 
-const userConnection = []
+var userConnection = []
 
 app.get('/', (req, res) => {
     console.log('rending website...')
@@ -16,6 +16,7 @@ io.on('connection', (socket) => {
     io.emit('SOCKET_ID', socket.id)
 
     socket.on('SOCKET_CONNECT', (auth) => {
+        console.log(auth)
         userConnection.push({
             socket_id: socket.id,
             auth: auth
