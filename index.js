@@ -19,10 +19,10 @@ io.on('connection', (socket) => {
         const indexUser = userConnection.findIndex(item => item.auth == auth)
         console.log('indexUser', indexUser)
         if (indexUser != -1) {
-            userConnection.push([...userConnection.slice(0, indexUser), {
+            userConnection == [...userConnection.slice(0, indexUser), {
                 socket_id: socket.id,
                 auth: auth
-            }, ...userConnection.slice(indexUser + 1)])
+            }, ...userConnection.slice(indexUser + 1)]
         } else {
             userConnection.push({
                 socket_id: socket.id,
