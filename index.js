@@ -38,6 +38,11 @@ io.on('connection', (socket) => {
         io.emit(msg.type, msg.data)
     });
 
+    socket.on('SOCKET_BROADCAST', (msg) => {
+        console.log('SOCKET_BROADCAST', msg)
+        socket.broadcast.emit(msg.type, msg.data)
+    });
+
     socket.on('SOCKET_ON_TO', (msg) => {
         console.log('SOCKET_ON_TO', msg)
         console.log('SOCKET_ID', msg.id)
